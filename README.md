@@ -118,3 +118,16 @@ Invoke-RestMethod `
 Conclusion :
 
 This project demonstrates a clean, maintainable approach to building a wallet tracking service with clear separation of concerns and real-world blockchain integration. The architecture is intentionally kept simple while remaining extensible for future production-grade enhancements.
+
+
+Assumptions Made During Development
+
+1.The application is designed as a single-user, local prototype, so wallet ownership, authentication, and access control are intentionally out of scope.
+2.Only Bitcoin mainnet addresses are supported. Testnet and other networks are excluded to keep validation and blockchain queries straightforward.
+3.Wallet addresses are validated using format-based checks only (legacy and SegWit patterns). Deeper validation such as checksum verification or on-chain existence is delegated to the blockchain data provider.
+4.Wallet data (balance and transaction count) is fetched on demand rather than continuously synchronized. This avoids unnecessary background processing and ensures up-to-date results when queried.
+5.Only confirmed balances are returned, as provided by the external API, and unconfirmed or mempool transactions are not included.
+6.Transaction history is treated as an aggregate metric (total transaction count) rather than storing individual transactions, which keeps the data model simple and avoids large storage overhead for high-activity wallets.
+7.SQLite is used for persistence under the assumption that this is a lightweight demo environment. The schema is intentionally minimal and optimized for fast local setup rather than horizontal scalability.
+8.The system assumes reasonable API availability from the blockchain provider and does not implement retries or rate-limit handling beyond basic timeout protection.
+9.The application is expected to be run in a trusted local or development environment, so advanced security measures such as API authentication, encryption at rest, and request throttling are not implemented.
